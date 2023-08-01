@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import supabase from "../config/supabaseClient";
+import WordCard from "../components/WordCard";
 const Home = () => {
 
 	const [wordPair, setwordPair] = useState<any>(null);
@@ -10,9 +11,8 @@ const Home = () => {
 	useEffect(() => {
 		const fetchWords = async () => {
 		  const { data, error } = await supabase
-		    .from('recipes')
-		    .select()
-		    .order(orderBy, {ascending: false})
+		    .from('Vocabulary')
+		    .select('*')
 		  
 		  if (error) {
 		    setFetchError('Could not fetch the data')
@@ -29,7 +29,19 @@ const Home = () => {
 	      }, [orderBy])
 
 	return (
-		<h1>Home</h1>
+		<div>
+			{fetchError && (<p>{fetchError}</p>)}
+		{	
+			wordPair && (
+				<div>
+				{wordPair.map((w: any) => (
+					<WordCard key={w.id} wordData={w} />
+					))}
+				</div>
+			)
+
+		}
+		</div>
 		
 	)
 	
