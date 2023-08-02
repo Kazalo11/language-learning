@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import supabase from "../config/supabaseClient";
 import WordCard from "../components/WordCard";
+import { SimpleGrid,Heading } from "@chakra-ui/react";
 const Home = () => {
 
 	const [wordPair, setwordPair] = useState<any>(null);
@@ -31,13 +32,15 @@ const Home = () => {
 	return (
 		<div>
 			{fetchError && (<p>{fetchError}</p>)}
+			<Heading size = 'md'> Words entered so far</Heading>
+			
 		{	
 			wordPair && (
-				<div>
+				<SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
 				{wordPair.map((w: any) => (
 					<WordCard key={w.id} wordData={w} />
 					))}
-				</div>
+				</SimpleGrid>
 			)
 
 		}
